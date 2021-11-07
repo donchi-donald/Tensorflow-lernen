@@ -7,6 +7,7 @@ import numpy as np
 
 num_classes = 10 #wir haben ziffer von 0 bis 9
 num_features = 28*28
+#jedes bild hat sein egenes Fehler
 batch_size = 256
 n_hidden_1 = 128
 n_hidden_2 = 256
@@ -48,13 +49,20 @@ class Mnist_Neural_Network(Model):
 
 
 #Loss/Fehler-Funktion
-
+def cross_entropy_loss(x, y):
+    y = tf.cast(y, tf.int64)
+    loss = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=x)
+    return tf.reduce_mean(loss)
 
 #Accuracy Metric (Wie gut die Daten sind)
-
+def accuracy(y_predicted, y_true):
+    y_true = tf.cast(y_true, tf.int64)
+    correct = tf.equal(tf.argmax(y_predicted), y_true)
+    return tf.reduce_mean(tf.cast(correct, tf.float32), axis=-1)
 
 
 #Gradient descent/Optimization:( Der Lernalgorithmus/Wie optimiere mein code damit er lernt)
+
 
 
 #Main
