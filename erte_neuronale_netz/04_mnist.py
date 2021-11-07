@@ -6,15 +6,20 @@ import numpy as np
 #define Parameters
 
 num_classes = 10 #wir haben ziffer von 0 bis 9
-num_featues = 28*28
+num_features = 28*28
+batch_size = 256
 n_hidden_1 = 128
 n_hidden_2 = 256
 
 #prepare data
 (x_train, y_train), (x_test, y_test) = mnist.load_data() #die trainingsdaten sind daten, die wir trainieren. Die neuronen dürfen die testdaten nie sehen, nicht trainingsdaten mit testdaten mischen
-x_train = np.array(x_train, np.float32)
-x_test = np.array(x_test, np.float32)
-print(len(x_train[0][0])) #0 0 die weiße pixel 28*28pixel
+x_train = np.array(x_train, np.float32).reshape([-1, num_features]) #wir löschen eine dimension, damit die bilder gut gespeichert wurde
+x_test = np.array(x_test, np.float32).reshape([-1, num_features])
+x_train, x_test = x_train/255., x_test/255. #neurone arbeite besser im bereich 0 bis 1, bilder sind von 0 bis 255 pixel
+print(x_train[0]) #0 0 die weiße pixel 28*28pixel, 0-255, wie viel Prozent davon sind farbig?
+
+train_data = tf.data.Dataset.from_tensor_slices((x_train, y_train)).repeat()
+train_data = train_data.shuffle(1100).batch(batch_size).prefetch(1) #mit shuffle wollen wir die Daten auseinande mischen
 exit()
 
 
