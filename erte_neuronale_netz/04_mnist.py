@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.python.keras import Model, layers
 from tensorflow.keras.datasets import mnist
 import numpy as np
-import matplotlib.pyplot as plst
+
 
 
 physical_devices = tf.config.list_physical_devices('GPU')
